@@ -70,7 +70,7 @@ router.get('/user', async (req, res) => {
         const decodedData = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
         // We can use .select() to omit sending password and version at client side
-        const user = await userModel.findOne({ _id: decodedData.id  }).select('-password -__v').lean();
+        const user = await userModel.findOne({ _id: decodedData.id  }).select('-password -__v');
 
         res.status(200).json({
             message: "User data fetched successfully",
