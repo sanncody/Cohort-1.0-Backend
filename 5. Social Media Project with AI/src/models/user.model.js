@@ -17,9 +17,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String
     },
-    profile: {
-        type: String
-    },
     posts: [
         {
             type: mongoose.Schema.Types.ObjectId,

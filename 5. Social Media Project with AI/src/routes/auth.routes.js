@@ -1,7 +1,6 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 
-const userModel = require('../models/user.model');
+const { registerController, loginController } = require('../controllers/auth.controller');
 
 const router = express.Router();
 
@@ -11,26 +10,7 @@ const router = express.Router();
  * GET /user [protected]
  */
 
-router.post('/register', async (req, res) => {
-    const { username, name, email, password } = req.body;
-
-    const userExists = await userModel.findOne({ username });
-
-    if (userExists) {
-        return res.status(409).json({ message: "Username already in use" });
-    }
-
-    const user = await userModel.create({
-        username,
-        name,
-        email,
-        password
-    });
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
-    res.cookie('token', token);
-
-    res.status(201).json({ message: "User registered successfully", user });
-});
+router.post('/register', registerController);
+router.post('/login', loginController);
 
 module.exports = router;
