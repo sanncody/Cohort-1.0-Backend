@@ -1,5 +1,6 @@
 const ImageKit = require("imagekit");
 const mongoose = require("mongoose");
+const { v4: uuidv4 } = require('uuid');
 
 const imagekit = new ImageKit({
     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
@@ -7,20 +8,14 @@ const imagekit = new ImageKit({
     urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
 });
 
-function uploadFile(file) {
-    return new Promise((resolve, reject) => {
-        imagekit.upload({
-            file: file.buffer,
-            fileName: new mongoose.Types.ObjectId().toString(),
-            folder: "Mood-Audio"
-        }, (error, result) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(result);
-            }
-        });
+async function uploadFile(file) {
+    const response = await imagekit.upload({
+        file: file.buffer,
+        fileName: `${uuidv4()}-${file.originalname}`,
+        folder: "Post-Images"
     });
+
+    return response;
 }
 
 module.exports = uploadFile;
