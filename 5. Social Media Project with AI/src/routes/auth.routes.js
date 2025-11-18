@@ -5,9 +5,11 @@ const { registerController, loginController } = require('../controllers/auth.con
 const router = express.Router();
 
 /**
- * POST /register
- * POST /login
- * GET /user [protected]
+ * POST /api/register
+ * POST /api/login
+ * GET /api/user [protected]
+ * 
+ * POST /api/posts { image_file } [PROTECTED]
  */
 
 router.post('/register', registerController);
